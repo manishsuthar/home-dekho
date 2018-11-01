@@ -8,3 +8,6 @@ table{
 .checkbox{
     float: left;
 }
+.input-inline{
+    display: inline;
+}

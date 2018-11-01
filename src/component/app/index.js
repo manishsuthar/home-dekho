@@ -37,7 +37,7 @@ class App extends Component {
               </div>
           </div>
         </header>
-        <div>
+        <div className="mainAppDiv">
             <Main/>
             <div className="addNew btnDiv">
                 <Link to="/add">

@@ -16,6 +16,8 @@
   /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
+  position: fixed;
+  width: 100%
 }
 
 .App-link {
@@ -37,7 +39,9 @@
   align-self: center;
   padding-left: 20%;
 }
-
+.mainAppDiv{
+  padding-top: 80px;
+}
 .logoimgDiv{
   float: left;
   width: 115px;

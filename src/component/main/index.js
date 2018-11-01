@@ -5,6 +5,7 @@ import Contact from '../../container/contact';
 import Search from '../../container/search';
 import AddNew from '../../container/addNew'; 
 import TestImage from '../../container/testImageupload';
+import View from '../../container/viewItem';
 const Main = props =>(
     <Switch>
         <Route exact path="/" component={Home}/>
@@ -12,6 +13,7 @@ const Main = props =>(
         <Route path="/search" component={Search}/>
         <Route path="/add" component={AddNew}/>
         <Route path="/test" component={TestImage}/>
+        <Route path="/view/:id" component={View}/>
     </Switch>
 )
 

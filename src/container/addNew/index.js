@@ -1,13 +1,15 @@
 import React,{Component} from 'react';
 import './index.css';
+import axios from 'axios';
+import {request} from '../../function';
 class AddNew extends Component{
     state={
         address:'',
         city:'',
         state:'',
         propertyType:'',
-        parking:'',
-        transport:'',
+        parking:false,
+        transport:false,
         description:'',
         ctname:'',
         ctphone:'',
@@ -16,7 +18,14 @@ class AddNew extends Component{
         image1:'',
         image2:'',
         image3:'',
-        image4:''
+        image4:'',
+        Selectprofileimage:'',
+        Selectimage1:'',
+        Selectimage2:'',
+        Selectimage3:'',
+        Selectimage4:'',
+        price:null
+        
     }
 
     onStateChange(key,event){
@@ -34,10 +43,10 @@ class AddNew extends Component{
                     this.setState({'propertyType':event.target.value});
                     break;
             case 'parking' :
-                    this.setState({'parking':event.target.value});
+                    this.setState({'parking':!this.state.parking});
                     break;
             case 'transport' :
-                    this.setState({'transport':event.target.value});
+                    this.setState({'transport':!this.state.transport});
                     break;
             case 'description' :
                     this.setState({'description':event.target.value});
@@ -53,31 +62,77 @@ class AddNew extends Component{
                     break;
             case 'profileimage' :
                     this.setState({'profileimage':event.target.value});
-                    break;
-            case 'image1' :
-                    this.setState({'image1':event.target.value});
-                    break;
-            case 'image2' :
-                    this.setState({'image2':event.target.value});
-                    break;
-            case 'image3' :
-                    this.setState({'image3':event.target.value});
-                    break;
-            case 'image4' :
-                    this.setState({'image4':event.target.value});
-                    break;
+                    break; 
+            case 'price' :
+                    this.setState({'price':event.target.value});
+            break;            
             default : 
                 break;
         }
     }
-
-    SubmitClick(event){
-        console.log(this.state);
+    SubmitClick = (event) => {
+        console.log(this.state)
+        var setting = {
+            url:'http://localhost:8080/homeDekho/add',
+            payload:this.state,
+            requestType:'POST',
+        }
+        request(setting,(err,res)=>{
+          alert(res.message)
+        })
+        event.preventDefault();
+    }
+    SendFile = (fd,cb)=>{
+        axios.post('http://localhost:8080/homeDekho/upload',fd)
+        .then(res=>{
+            alert(res.data.message);
+            return(cb(res.data.name));
+        })
+    }
+    UploadFile = (key,event) =>{
+        const fd = new FormData();
+        switch(key){
+            case 'profileimage' :
+                fd.append('fileName',event.target.files[0],event.target.files[0].name);
+                this.SendFile(fd,(done)=>{
+                    this.setState({'profileimage':done}); 
+                })
+                break;
+        case 'image1' :
+                fd.append('fileName',event.target.files[0],event.target.files[0].name);
+                this.SendFile(fd,(done)=>{
+                    this.setState({'image1':done}); 
+                })
+                break;
+        case 'image2' :
+                //this.setState({'Selectimage2':event.target.files[0]});
+                fd.append('fileName',event.target.files[0],event.target.files[0].name);
+                this.SendFile(fd,(done)=>{
+                    this.setState({'image2':done}); 
+                })
+                break;
+        case 'image3' :
+                //this.setState({'Selectimage3':event.target.files[0]});
+                fd.append('fileName',event.target.files[0],event.target.files[0].name);
+                this.SendFile(fd,(done)=>{
+                    this.setState({'image3':done}); 
+                })
+                break;
+        case 'image4' :
+                //this.setState({'Selectimage4':event.target.files[0]});
+                fd.append('fileName',event.target.files[0],event.target.files[0].name);
+                this.SendFile(fd,(done)=>{
+                    this.setState({'image4':done});
+                })
+                break;
+        default : 
+                break; 
+        }
         event.preventDefault();
     }
 
     render(){
-       const {address,city,state,propertyType,parking,transport,description,ctname,ctphone,ctemail,profileimage,image1,image2,image3,image4} = this.state;
+       const {address,city,state,propertyType,description,ctname,ctphone,ctemail,price} = this.state;
         return(
         <div className="mainDiv">
             <div className="childDiv">
@@ -110,11 +165,11 @@ class AddNew extends Component{
                             </tr>
                             <tr>
                                 <th className="text-right">Parking</th>
-                                <th><input className="checkbox" onChange={this.onStateChange.bind(this,"parking")} value={parking} name="parking" type="checkbox"/></th>
+                                <th><input className="checkbox" onChange={this.onStateChange.bind(this,"parking")} name="parking" type="checkbox"/></th>
                             </tr>
                             <tr>
                                 <th className="text-right">Transport</th>
-                                <th><input className="checkbox" name="transport" onChange={this.onStateChange.bind(this,"transport")} value={transport} type="checkbox"/></th>
+                                <th><input className="checkbox" name="transport" onChange={this.onStateChange.bind(this,"transport")} type="checkbox"/></th>
                             </tr>
                             <tr>
                                 <th className="text-right">Description</th>
@@ -135,21 +190,37 @@ class AddNew extends Component{
                                 <td><input type="text" name="ctemail" onChange={this.onStateChange.bind(this,"ctemail")} placeholder="Email" value={ctemail} /></td>
                             </tr>
                             <tr>
+                                <th className="text-right">Price</th>
+                                <td><input type="number" name="price" onChange={this.onStateChange.bind(this,"price")} placeholder="Price" value={price} /></td>
+                            </tr>
+                            <tr>
                                 <th className="text-right">Profile Image</th>
-                                <td><input type="file" name="profileimage" onChange={this.onStateChange.bind(this,"profileimage")} placeholder="Profile" value={profileimage} /></td>
+                                <td><input type="file" name="profileimage" onChange={this.UploadFile.bind(this,"profileimage")} placeholder="Profile"/></td>
                             </tr>
                             <tr>
                                 <th className="text-right">Cover Image</th>
                                 <td>
-                                    <input type="file" name="image1" onChange={this.onStateChange.bind(this,"image1")} value={image1}/>
-                                    <input type="file" name="image2" onChange={this.onStateChange.bind(this,"image2")} value={image2}/>
-                                    <input type="file" name="image3" onChange={this.onStateChange.bind(this,"image3")} value={image3}/>
-                                    <input type="file" name="image4" onChange={this.onStateChange.bind(this,"image4")} value={image4}/>
+                                    <div className="input-inline">
+                                        <input type="file" name="image1" onChange={this.UploadFile.bind(this,"image1")}/>
+                                        {/* <button type="button" onClick={this.UploadFile(this,"image1")}>Upload</button> */}
+                                    </div>
+                                    <div className="input-inline">
+                                        <input type="file" name="image2" onChange={this.UploadFile.bind(this,"image2")}/>
+                                        {/* <button type="button" onClick={this.UploadFile(this,"image2")}>Upload</button> */}
+                                    </div>
+                                    <div className="input-inline">
+                                        <input type="file" name="image3" onChange={this.UploadFile.bind(this,"image3")}/>
+                                        {/* <button type="button" onClick={this.UploadFile(this,"image3")}>Upload</button> */}
+                                    </div>
+                                    <div className="input-inline">
+                                        <input type="file" name="image4" onChange={this.UploadFile.bind(this,"image4")}/>
+                                        {/* <button type="button" onClick={this.UploadFile(this,"image4")}>Upload</button> */}
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 
-                                    <center><button type="submit" name="submit">Submit</button></center>
+                                    <center><button type="button" onClick={this.SubmitClick} name="submit">Submit</button></center>
                                 
                             </tr>
                         </tbody>

@@ -1,0 +1,25 @@
+.fullWidthSilder{
+    width: 100%;
+    height: 400px;
+    background-color: gray;
+}
+.ViewMain{
+    height: 356px;
+    background-color: darkslategray;
+    display: inline-flex;
+    width: 100%;
+}
+.leftDiv{
+    float: left;
+    width: 30%
+}
+.rightDiv{
+    float: right;
+    width: 60%;
+}
+tbody{
+    border: none;
+}
+table{
+    border: none;
+}

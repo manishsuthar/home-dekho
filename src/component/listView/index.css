@@ -1,0 +1,48 @@
+.listMain{
+    width: 100%;
+    height: 225px;
+    border: 1px solid black;
+    border-radius: 35px;
+    margin-top: 15px;
+    display: inline-flex;
+    background-color: #39c3e8;
+}
+.leftImage{
+    width: 300px;
+    height: 92.6%;
+    margin: 10px;
+    background-color:transparent;
+}
+.ListViewImage{
+    max-width: 100%;
+    max-height: 100%;
+}
+.rightImage{
+    width: 69%;
+    height: 92.6%;
+    margin: 10px;
+    background-color:transparent;
+}
+
+.pull-right{
+    float: right;
+}
+table{
+    border: none;
+}
+tr{
+    border: none;
+}
+.pull-left{
+    float: left;
+    margin: 10px;
+}
+b{
+    padding-right: 20px;
+}
+.viewBtn{
+    height: 30px;
+    padding: 5px;
+    border-radius: 11px;
+    background-color: cornflowerblue;
+}
